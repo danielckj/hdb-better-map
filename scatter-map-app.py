@@ -42,7 +42,6 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets, assets_fold
 
 def plotdata_to_dict(list_of_plotdata):
     '''
-    formally known as kpi_to_dict
     builds dict for linking plotting data in list_of_plotdata to labels
     needed for creating drop-down list for choosing data to plot
     
@@ -56,7 +55,6 @@ def plotdata_to_dict(list_of_plotdata):
 # End Part 1
 
 # Part 2: building web display
-# Removed from density-map-app: hour slider, date drop-down list, ability to compare KPIs
 def build_banner():
     return html.Div(
         id="banner",
@@ -97,10 +95,8 @@ def build_tabs():
 Define data_for_plotting and plotdata_list manually, for simple data
 data_for_plotting: single dataframe containing all data to be plotted
 plotdata_list: list of data labels referencing data to be plotted
-If more complicated, may consider using function like import_data_from_csv
 """
 
-# target_path = 'C:\\Users\\chiakj\\OneDrive - M1 Limited\\NSA Drive Test\\stats-dash-maps-master\\5G Scanning\\'
 target_path = Path('C:/Users/leadd/Documents/HDB Better Map')
 data_for_plotting = pd.read_csv("HDB Ages and Prices as of 2024-04-22.csv")
 raw_data = pd.read_csv("HDB as of 2024-04-22 all info.csv")
@@ -119,10 +115,9 @@ plotdata_params = {
             },
     }
 plotdata_list = list(plotdata_params.keys())
-# kpi_list, data_for_plotting = import_data_from_csv(target_path)
 plotdata_dict,plotdata_first = plotdata_to_dict(plotdata_list)
 
-# Mapbox token. Needed for accessing symbols
+# Mapbox token. Needed for accessing Mapbox maps
 try:
     with open("mapbox_token.txt") as f:
         mapbox_token = f.read()
@@ -303,7 +298,7 @@ def update_figure(selected_plotdata, selected_map_type, selected_room_count, sel
     
     title_text = selected_plotdata + ", {} points plotted".format(count_points_plotted)
                 
-    # map and layout controls: different layout structure for OneMap and Mapbox
+    # map and layout controls: different layout structure for OSM and Mapbox
     if selected_map_type == 'OSM':
         mapstyle ='open-street-map'
         maplayers=[]
